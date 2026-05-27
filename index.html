@@ -328,7 +328,7 @@ function buildDays(){
     // 3. Conductas
     const condRows=CONDUCTAS.map((cond,ci)=>`
       <div class="conduct-row-m" style="background:${ci%2===0?cond.bg:'white'}">
-        <input class="conduct-name-input-m" id="cond-name-${di}-${ci}" value="${cond.name}" style="color:${cond.color}" placeholder="Conducta...">
+        <input class="conduct-name-input-m" id="cond-name-${di}-${ci}" value="${cond.name}" style="color:${cond.color}" placeholder="Conducta..." oninput="sincronizarConducta(this,${ci})">
         <div class="yn-group-m">
           <span class="yn-label-m" style="color:var(--naran)">Ganas</span>
           <div class="yn-buttons-m">
@@ -412,6 +412,16 @@ function buildDays(){
 
     card.appendChild(content);
     container.appendChild(card);
+  });
+}
+
+/* ── SINCRONIZAR CONDUCTA ENTRE DÍAS ── */
+function sincronizarConducta(inputOrigen, ci){
+  const nuevoNombre = inputOrigen.value;
+  // Actualizar el mismo índice de conducta en todos los demás días
+  DAYS.forEach((_, di) => {
+    const input = document.getElementById(`cond-name-${di}-${ci}`);
+    if(input && input !== inputOrigen) input.value = nuevoNombre;
   });
 }
 
